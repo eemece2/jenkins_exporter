@@ -164,6 +164,14 @@ def parse_args():
         default=os.environ.get('JENKINS_PASSWORD')
     )
     parser.add_argument(
+        '--password-file',
+        dest='passwordFile',
+        metavar='passwordFile',
+        required=False,
+        help='jenkins api passwordFile',
+        default=os.environ.get('JENKINS_PASSWORD_FILE')
+    )
+    parser.add_argument(
         '-p', '--port',
         metavar='port',
         required=False,
@@ -178,7 +186,13 @@ def main():
     try:
         args = parse_args()
         port = int(args.port)
-        REGISTRY.register(JenkinsCollector(args.jenkins, args.user, args.password))
+        password=""
+        try:
+            with open(args.passwordFile, 'r') as myfile:
+                password=myfile.read().replace('\n', '')
+        except:
+            print("Error: No password file")
+        REGISTRY.register(JenkinsCollector(args.jenkins, args.user, password))
         start_http_server(port)
         print "Polling %s. Serving at port: %s" % (args.jenkins, port)
         while True:

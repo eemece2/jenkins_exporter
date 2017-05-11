@@ -18,11 +18,12 @@ For more information see (http://www.robustperception.io/writing-a-jenkins-expor
                             server url from the jenkins api
       --user user           jenkins api user
       --password password   jenkins api password
+      --password-file passwordFilePath   jenkins api password file path
       -p port, --port port  Listen to this port
 
 #### Example
 
-    docker run -d -p 9118:9118 lovoo/jenkins_exporter:latest -j http://jenkins:8080 -p 9118
+    docker run -d -p 9118:9118 lovoo/jenkins_exporter:latest -j http://jenkins:8080 -p 9118 --user admin --password-file=/run/secrets/jenkins_token
 
 
 ## Installation
